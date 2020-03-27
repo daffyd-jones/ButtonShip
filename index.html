@@ -1,0 +1,107 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .boardTables{
+            align-content: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+    <script>
+        let alphArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
+            "T", "U", "V", "W", "X", "Y", "Z"
+        ];
+        function makeAttackBoard() {
+            let table = document.createElement('table');
+            table.setAttribute('id', 'attackBoard');
+            table.setAttribute('class', "boardTables")
+            let tr = table.insertRow(-1);
+            for (let i = 1; i <= 10; ++i) {
+                tr = table.insertRow(-1);
+                for (let j = 1; j <= 10; j++) {
+                    let td = document.createElement('td');
+                    td = tr.insertCell(-1);
+                    let btn = document.createElement('button');
+                    btn.setAttribute('id', "" + j + i);
+                    btn.setAttribute('class', "attackDivs");
+                    btn.style.position = "relative"
+                    btn.style.height = "20px";
+                    btn.style.width = "10px";
+                    let timOut = setTimeout(function () {
+                        btn.onclick = function fire(e) {
+                            e.preventDefault();
+                            let array;
+                            db.collection("rooms").doc('id').onsnapshot(
+                                function (snap) {
+                                    array = snap.data().array;
+                                }
+                            )
+                            if (array[j][i]) {
+                                array[j].splice(i, 1, "hit");
+
+                            } else {
+                                document.getElementById('nopeMessage').style.display = "block";
+
+                            }
+                            bd.collection("rooms").doc("id").update(array);
+                        }
+                    }, 10)
+                    td.appendChild(btn);
+                }
+            }
+            document.body.appendChild(table);
+        }
+        function makeShipBoard() {
+            let table = document.createElement('table');
+            table.setAttribute('id', 'shipBoard');
+            table.setAttribute('class', "boardTables")
+            let tr = table.insertRow(-1);
+            for (let i = 1; i <= 10; ++i) {
+                tr = table.insertRow(-1);
+                for (let j = 1; j <= 10; j++) {
+                    let td = document.createElement('td');
+                    td = tr.insertCell(-1);
+                    let btn = document.createElement('button');
+                    btn.setAttribute('id', "s" + j + i);
+                    btn.setAttribute('class', "attackDivs");
+                    btn.style.position = "relative"
+                    btn.style.height = "20px";
+                    btn.style.width = "10px";
+                    let timOut = setTimeout(function () {
+                        btn.onclick = function placePoint(e) {
+                            e.preventDefault();
+                            let array;
+                            db.collection("rooms").doc('id').onsnapshot(
+                                function (snap) {
+                                    array = snap.data().array;
+                                }
+                            )   
+                            array[j][i] = true;
+                            bd.collection("rooms").doc("id").update(array);
+                            document.getElementById("" + j + i).style.backgroundColor = "grey";
+                        }
+                    }, 10)
+                    td.appendChild(btn);
+                }
+            }
+            document.body.appendChild(table);
+        }
+        
+        makeAttackBoard();
+        makeShipBoard();
+
+
+       
+    </script>
+
+</body>
+
+</html>
