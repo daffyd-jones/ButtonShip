@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BattleShip</title>
+</head>
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+    
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBEOqIB8IiEGwVXA5zTpZqzCEUBmfg6k_0",
+        authDomain: "battleship-74489.firebaseapp.com",
+        databaseURL: "https://battleship-74489.firebaseio.com/",
+        projectId: "battleship-74489",
+        storageBucket: "battleship-74489.appspot.com",
+        messagingSenderId: "594313197295",
+        appId: "1:594313197295:web:e783e7bb79dc661cb18d1a",
+        measurementId: "G-28BM8ZQ4FY"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+      // Initialize Database
+      var database = firebase.firestore();
+    </script>
+    <div id="holdsgrid"></div>
+    <script src='gindex.js'></script>
+    <script>
+        var database = firebase.firestore();
+    </script>
+    <input type="button" id="makeships" value="Place Ships" onclick="placeShips()">
+</body>
+</html>
