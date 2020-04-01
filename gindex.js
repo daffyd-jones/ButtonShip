@@ -59,6 +59,14 @@ function getCoords(typeofship, sizeofship) {
     cx1 = parseInt(coords[1]);
     cy2 = parseInt(coords[2]);
     cx2 = parseInt(coords[3]);
+    if (cx1 > cx2) {
+        cx1 = parseInt(coords[3]);
+        cx2 = parseInt(coords[1]);
+    }
+    if (cy1 > cy2) {
+        cy1 = parseInt(coords[2]);
+        cy2 = parseInt(coords[0]);
+    }
 }
 // Places the carrier class ship.
 function placeCarrier(x1, y1, x2, y2) {
@@ -72,7 +80,7 @@ function placeCarrier(x1, y1, x2, y2) {
 // grid container.
 function placeShips() {
     gridcontainer.innerHTML='';
-    p1Grid = makeGrid(p1GridSize);
+    //p1Grid = makeGrid(p1GridSize);
     getCoords("Carrier", carriersize);
     placeCarrier(cx1, cy1, cx2, cy2);
     /*
@@ -98,4 +106,3 @@ function placeShips() {
 let p1GridSize = 10;
 let p1Grid = makeGrid(p1GridSize);
 placeGrids(p1Grid);
-
