@@ -101,7 +101,7 @@ function placeShips() {
     //placePatrolBoat(cx1, cy1, cx2, cy2);
     placeGrids(p1Grid);
 }
-// Initializes the players grid dimensions to 8x8
+// Initializes the players grid dimensions to 10x10
 // and places the first grid.
 let p1GridSize = 10;
 let p1Grid = makeGrid(p1GridSize);
