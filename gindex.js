@@ -19,7 +19,7 @@ function makeGrid(size) {
     let myGrid = [];
     for (let i = 0; i < size; i++) {
         myGrid[i] = [];
-        for(let n = 0; n < size; n++) {
+        for (let n = 0; n < size; n++) {
             myGrid[i][n] = emptyspace;
         }
     }
@@ -29,23 +29,23 @@ function makeGrid(size) {
 // and place y axis #'s infront of grids rows, and
 // pushes it all to the div grid container.
 function placeGrids(grid) {
-    gridcontainer.innerHTML+=("#");
+    gridcontainer.innerHTML += ("#");
     const xtitles = createTitles(grid.length);
-    gridcontainer.innerHTML+=xtitles;
-    gridcontainer.innerHTML+='<br>';
+    gridcontainer.innerHTML += xtitles;
+    gridcontainer.innerHTML += '<br>';
     for (let n = 0; n < grid.length; n++) {
         let title = 'y' + n + ' ';
         for (let node of grid[n]) {
-                title += node + ' ';
+            title += node + ' ';
         }
-        gridcontainer.innerHTML+=title;
-        gridcontainer.innerHTML+='<br>';
+        gridcontainer.innerHTML += title;
+        gridcontainer.innerHTML += '<br>';
     }
 }
 // Creates x axis headers.
 function createTitles(size) {
     let output = '  ';
-    for( let n = 0; n < size; n++) {
+    for (let n = 0; n < size; n++) {
         output += ' x' + n;
     }
     return output;
@@ -71,7 +71,7 @@ function getCoords(typeofship, sizeofship) {
 // Places the carrier class ship.
 function placeCarrier(x1, y1, x2, y2) {
     for (var f = x1; f <= x2; f++) {
-        for(var g = y1; g <= y2; g++) {
+        for (var g = y1; g <= y2; g++) {
             p1Grid[f][g] = shipspace;
         }
     }
@@ -79,18 +79,18 @@ function placeCarrier(x1, y1, x2, y2) {
 // Places ships onto grid then updates the
 // grid container.
 function placeShips() {
-    gridcontainer.innerHTML='';
+    gridcontainer.innerHTML = '';
     //p1Grid = makeGrid(p1GridSize);
     getCoords("Carrier", carriersize);
     placeCarrier(cx1, cy1, cx2, cy2);
     /*
-    * Placement of other ships still needs to be
-    * implemented. A Battleship should occupy 4
-    * spaces, A Destroyer should occupy 3 spaces,
-    * A Submarine should occupy 3 spaces, and
-    * finally, A Patrol Boat should occupy 2
-    * spaces.
-    */
+     * Placement of other ships still needs to be
+     * implemented. A Battleship should occupy 4
+     * spaces, A Destroyer should occupy 3 spaces,
+     * A Submarine should occupy 3 spaces, and
+     * finally, A Patrol Boat should occupy 2
+     * spaces.
+     */
     //getCoords("Battleship", battleshipsize);
     //placeBattleship(cx1, cy1, cx2, cy2);
     //getCoords("Destroyer", destroyersize);
@@ -106,3 +106,289 @@ function placeShips() {
 let p1GridSize = 10;
 let p1Grid = makeGrid(p1GridSize);
 placeGrids(p1Grid);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////
+let otherBoard;
+
+function swapEm1() {
+    document.getElementById('goButton1').addEventListener("click", function (e) {
+        e.preventDefault();
+//need to put a get by id here, not sure what ians set up looks like yet.
+
+        db.collection('Grids').doc('GridStore').onSnapshot(
+            function (snap) {
+                let check = snap.data().go;
+                while (!check) {
+                    document.getElementById('textField').innerHTML = "Waiting for other player.";
+                }
+                document.getElementById('textField').innerHTML = "";
+                db.collection('Grids').doc('GridStore').update({
+                    plyr1: boardMap
+                })
+                db.collection('Grids').doc('GridStore').get().then(
+                    (doc) => {
+                        if (doc.exists) {
+                            otherBoard = doc.data().plyr2;
+                        } else {
+                            console.log("no doc");
+                        }
+                    }
+                )
+
+
+            }
+        )
+
+    })
+}
+
+function writeBase() {
+    let mp = {};
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 10; j++) {
+            mp['' + j + i] = false;
+        }
+    }
+    let arr = [];
+    arr[0] = mp;
+    db.collection('Grids').doc('GridStore').set({
+        go: false,
+        plyr1: arr,
+        plyr2: arr
+        
+    })
+}
+//writeBase();

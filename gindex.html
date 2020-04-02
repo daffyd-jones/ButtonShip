@@ -4,8 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BattleShip</title>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 </head>
 <body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
 
@@ -33,12 +60,12 @@
       firebase.analytics();
 
       // Initialize Database
-      var database = firebase.firestore();
+      const db = firebase.firestore();
     </script>
     <div id="holdsgrid"></div>
     <script src='gindex.js'></script>
     <script>
-        var database = firebase.firestore();
+         
     </script>
     <input type="button" id="makeships" value="Place Ships" onclick="placeShips()">
 </body>
