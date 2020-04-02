@@ -55,6 +55,8 @@ function getCoords(typeofship, sizeofship) {
     let pinput = `Placing ${typeofship}. Enter coordinates for 2 positions, which are ${sizeofship} spaces apart, in a straight line.`
     let inputcoords = prompt(pinput, "Format: X1,Y1,X2,Y2");
     let coords = inputcoords.split(",");
+    let recall1 = typeofship;
+    let recall2 = sizeofship;
     cy1 = parseInt(coords[0]);
     cx1 = parseInt(coords[1]);
     cy2 = parseInt(coords[2]);
@@ -66,6 +68,12 @@ function getCoords(typeofship, sizeofship) {
     if (cy1 > cy2) {
         cy1 = parseInt(coords[2]);
         cy2 = parseInt(coords[0]);
+    }
+    let xsizecheck = (cx2 - cx1+1 == sizeofship && cy2 == cy1);
+    let ysizecheck = (cy2 - cy1+1 == sizeofship && cx2 == cx1);
+    if (xsizecheck | ysizecheck) {
+    } else {
+        getCoords(recall1, recall2)
     }
 }
 // Places the carrier class ship.
