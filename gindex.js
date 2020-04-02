@@ -84,6 +84,38 @@ function placeCarrier(x1, y1, x2, y2) {
         }
     }
 }
+//Places the battleship.
+function placeBattleship(x1,y1,x2,y2){
+    for(var f = x1; f <= x2; f++){
+        for(var g = y1; g <= y2; g++){
+            p1Grid[f][g] = shipspace;
+        }
+    }
+}
+//Places the destroyer class ship.
+function placeDestroyer(x1,y1,x2,y2){
+    for(var f = x1; f <= x2; f++){
+        for(var g = y1; g <= y2; g++){
+            p1Grid[f][g] = shipspace;
+        }
+    }
+}
+//Places the submarine.
+function placeSubmarine(x1,y1,x2,y2){
+    for(var f = x1; f <= x2; f++){
+        for(var g = y1; g <= y2; g++){
+            p1Grid[f][g] = shipspace;
+        }
+    }
+}
+//Places the patrol boat.
+function placePatrolBoat(x1,y1,x2,y2){
+    for(var f = x1; f <= x2; f++){
+        for(var g = y1; g <= y2; g++){
+            p1Grid[f][g] = shipspace;
+        }
+    }
+}
 // Places ships onto grid then updates the
 // grid container.
 function placeShips() {
@@ -91,22 +123,14 @@ function placeShips() {
     //p1Grid = makeGrid(p1GridSize);
     getCoords("Carrier", carriersize);
     placeCarrier(cx1, cy1, cx2, cy2);
-    /*
-     * Placement of other ships still needs to be
-     * implemented. A Battleship should occupy 4
-     * spaces, A Destroyer should occupy 3 spaces,
-     * A Submarine should occupy 3 spaces, and
-     * finally, A Patrol Boat should occupy 2
-     * spaces.
-     */
-    //getCoords("Battleship", battleshipsize);
-    //placeBattleship(cx1, cy1, cx2, cy2);
-    //getCoords("Destroyer", destroyersize);
-    //placeDestroyer(cx1, cy1, cx2, cy2);
-    //getCoords("Submarine", submarinesize);
-    //placeSubmarine(cx1, cy1, cx2, cy2);
-    //getCoords("Patrol Boat", patrolboatsize);
-    //placePatrolBoat(cx1, cy1, cx2, cy2);
+    getCoords("Battleship", battleshipsize);
+    placeBattleship(cx1, cy1, cx2, cy2);
+    getCoords("Destroyer", destroyersize);
+    placeDestroyer(cx1, cy1, cx2, cy2);
+    getCoords("Submarine", submarinesize);
+    placeSubmarine(cx1, cy1, cx2, cy2);
+    getCoords("Patrol Boat", patrolboatsize);
+    placePatrolBoat(cx1, cy1, cx2, cy2);
     placeGrids(p1Grid);
 }
 // Initializes the players grid dimensions to 10x10
