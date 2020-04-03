@@ -61,7 +61,7 @@
             buttDiv.style.alignContent = "auto";
             buttDiv.innerHTML = "Enter The Game!";
             buttDiv.onclick = function (){
-                db.collection('PlayerCount').doc('PlyrCnt').onSnapshot (
+                db.collection('PlayerCount').doc('PlyrCnt').get().then (
                     function (snap) {
                         let check = snap.data().isp1waiting;
                         
