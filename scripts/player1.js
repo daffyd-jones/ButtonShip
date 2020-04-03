@@ -104,6 +104,7 @@ function fire() {
                 this.className = "attackDivs hit"
                 hitCounter++;
                 hit = true;
+                document.getElementById("hits1").innerHTML = "Hits: " + hitCounter;
             }
         }
         if (hit) {
@@ -116,6 +117,7 @@ function fire() {
         } else {
             this.className = "attackDivs miss";
             shotCounter++;
+            document.getElementById("score1").innerHTML = "Shots: " + shotCounter;
         }
     }
 
