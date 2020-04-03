@@ -30,7 +30,8 @@ buttDiv.setAttribute('id', "enterDiv");
                                 isp1waiting: true
                             })
                             console.log(check);
-                            setTimeout(function() {
+                            setTimeout(function () {
+                                writeBase();
                                 window.location.href = "player1.html";
                             }, 500);
                         }
@@ -39,4 +40,22 @@ buttDiv.setAttribute('id', "enterDiv");
             };
             buttA.appendChild(buttDiv);
             document.getElementById('container').appendChild(buttA);
+}
+function writeBase() {
+    let mp = {};
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 10; j++) {
+            mp['' + j + i] = false;
         }
+    }
+    let arr = [];
+    arr[0] = mp;
+    db.collection('Grids').doc('GridStore').set({
+        go2: false,
+        go: false,
+        plyr1: arr,
+        plyr2: arr
+
+    })
+}
+
