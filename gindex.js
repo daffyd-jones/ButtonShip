@@ -440,6 +440,7 @@ function writeBase() {
     let arr = [];
     arr[0] = mp;
     db.collection('Grids').doc('GridStore').set({
+        go2: false,
         go: false,
         plyr1: arr,
         plyr2: arr
