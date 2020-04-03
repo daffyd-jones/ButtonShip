@@ -64,22 +64,22 @@
                 db.collection('PlayerCount').doc('PlyrCnt').onSnapshot (
                     function (snap) {
                         let check = snap.data().isp1waiting;
-                        
+                    })
                         if (check) {
                             document.getElementById('enterA').href = "player2.html";
                             db.collection('PlayerCount').doc('PlyrCnt').update({
                                 isp1waiting: false
                                 
                             })
+                            console.log(check);
                             break;
                         } else {
                             document.getElementById('enterA').href = "player1.html";
                             db.collection('PlayerCount').doc('PlyrCnt').update({
                                 isp1waiting: true
                             })
-                        }
-                    }
-                )
+                            console.log(check);
+                        } 
             };
             buttA.appendChild(buttDiv);
             document.getElementById('container').appendChild(buttA);
