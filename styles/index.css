@@ -1,0 +1,9 @@
+body{
+    background-color: lightblue;
+}
+div{
+    width: 60%;
+    margin:  0 auto;
+    text-align: center;
+    height: 50%
+}
