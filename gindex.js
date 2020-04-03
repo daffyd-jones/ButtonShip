@@ -389,7 +389,7 @@ function swapEm1(boardMap) { ///////goButton1 connects to ready button
                         function (snap) {
                             let twoCheck = snap.data().go2;
                             while (!twoCheck) {
-                                alert("Waiting for other player");
+                                window.alert("Waiting for other player");
                             }
                             db.collection('Grids').doc('GridStore').update({
                                 plyr1: boardMap
@@ -444,7 +444,7 @@ function swapEm2(boardMap) {
                         function (snap) {
                             let twoCheck = snap.data().go2;
                             while (!twoCheck) {
-                                alert("Waiting for other player");
+                                window.alert("Waiting for other player");
                             }
                             db.collection('Grids').doc('GridStore').update({
                                 plyr2: boardMap
@@ -497,17 +497,17 @@ function gameOver1(missAmt){
                     function (snap){
                         let ch2 = snap.data().go2;
                         while(ch2){
-                            alert("Waiting for other player");
+                            window.alert("Waiting for other player");
                         }
                         db.collection('Grids').doc('GridStore').get().then(
                             (doc) => {
                                 if(doc.exists){
                                     let plr2Scr = doc.data().plr2Scr;
                                     if (missAmt<plr2Scr){
-                                        alert("You Won!!!!!");
+                                        window.alert("You Won!!!!!");
                                         writeBase();
                                     } else{
-                                        alert("You Lose!!");
+                                        window.alert("You Lose!!");
                                         writeBase();
                                     }
                                 }
@@ -526,10 +526,10 @@ function gameOver1(missAmt){
                         if(doc.exists){
                             let plr2Scr = doc.data().plr2Scr;
                             if (missAmt<plr2Scr){
-                                alert("You Win!!!");
+                                window.alert("You Win!!!");
                                 writeBase();
                             } else{
-                                alert("You Lose!!!");
+                                window.alert("You Lose!!!");
                                 writeBase();
                             }
                         }
@@ -553,17 +553,17 @@ function gameOver2(missAmt){
                     function (snap){
                         let ch2 = snap.data().go2;
                         while(ch2){
-                            alert("Waiting for other player.")
+                            window.alert("Waiting for other player.")
                         }
                         db.collection('Grids').doc('GridStore').get().then(
                             (doc) => {
                                 if(doc.exists){
                                     let plr1Scr = doc.data().plr1Scr;
                                     if (missAmt<plr1Scr){
-                                        alert("You Win");
+                                        window.alert("You Win");
                                         writeBase();
                                     } else{
-                                        alert("you Lose");
+                                        window.alert("you Lose");
                                         writeBase();
                                     }
                                 }
@@ -582,10 +582,10 @@ function gameOver2(missAmt){
                         if(doc.exists){
                             let plr1Scr = doc.data().plr1Scr;
                             if (missAmt<plr1Scr){
-                                alert("You Win!!!");
+                                window.alert("You Win!!!");
                                 writeBase();
                             } else{
-                                alert("you Lose!!!")
+                                window.alert("you Lose!!!")
                                 writeBase();
                             }
                         }
