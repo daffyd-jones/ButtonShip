@@ -210,7 +210,9 @@
                 if (hit) {
                     shotCounter++;
                     if (hitCounter == maxHits) {
+///////////////////////////////////////////////////////////////////////////
                         gameOver2();
+/////////////////////////////////////////////////////////////////////
                     }
                 } else {
                     this.className = "attackDivs miss";
@@ -219,10 +221,12 @@
             }
             
         }
+///////////////////////////////////////////////////////////////////////////////////////////
         function gameOver2() {
             winCheck()
             //resetGame() <~~ Reset function?
         }
+///////////////////////////////////////////////////////////////////////////////////////////////////
         //ships can overlap currently, as well as share end points
         function placement() {
 
@@ -509,6 +513,7 @@
                     }
                 }
             }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
             if (validPlacement) {
                 let gridRef = db.collection('Grids').doc('GridStore')
                 for (let i = 0; i < shipArray.length; i++) {
@@ -519,8 +524,11 @@
                     });
                 }
                 validPlacement = false;
+
+                //Make this happen once opponent is ready
                 makeAttackBoard();
             }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
         //makeAttackBoard();
