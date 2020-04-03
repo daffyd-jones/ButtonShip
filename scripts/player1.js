@@ -3,7 +3,7 @@ const battleshipSize = 4;
 const destroyerSize = 3;
 const submarineSize = 3;
 const patrolboatSize = 2;
-let maxHits = 0;
+const maxHits = 17;
 let placingCarrier = true;
 let placingBattleship = false;
 let placingDestroyer = false;
@@ -29,10 +29,8 @@ function makeAttackBoard() {
     let playArea = [];
     let shipRef = db.collection('Grids').doc('GridStore').get().then(
         function (doc) {
-            //let i = 55;
-            //console.log(doc.data().plyr2);
+            
             let test = doc.data().plyr2;
-            //console.log(typeof(test));
             console.log("db placements: ")
             console.log(test["0"]);
             for (let i = 1; i <= 10; ++i) {
@@ -42,7 +40,7 @@ function makeAttackBoard() {
                     }
                 }
             }
-            maxHits = opponentShips.length;
+
         }
     );
     let table = document.createElement('table');
@@ -57,11 +55,8 @@ function makeAttackBoard() {
             td = tr.insertCell(-1);
             let btn = document.createElement('button');
             btn.setAttribute('id', "" + j + i);
+            btn.innerHTML = btn.id;
             btn.setAttribute('class', "attackDivs unknown");
-            //btn.innerHTML = btn.id;
-            //btn.style.position = "relative"
-            //btn.style.height = "0.8cm";
-            //btn.style.width = "0.8cm";
             setTimeout(function () {
                 btn.onclick = fire;
             }, 10)
@@ -71,7 +66,6 @@ function makeAttackBoard() {
     console.log("saved placements: ")
     console.log(opponentShips);
     document.getElementById("opponent").appendChild(table);
-    window.alert("Sink all your opponents ships in the fewest amount of shots to win.");
 }
 
 function makeShipBoard() {
@@ -87,10 +81,7 @@ function makeShipBoard() {
             let btn = document.createElement('button');
             btn.setAttribute('id', j + "," + i + "p");
             btn.setAttribute('class', "attackDivs");
-            //btn.innerHTML = btn.id;
-            //btn.style.position = "relative"
-            //btn.style.height = "40px";
-            //btn.style.width = "40px";
+            btn.innerHTML = btn.id;
             setTimeout(function () {
                 btn.onclick = placement;
             }, 10)
@@ -98,7 +89,6 @@ function makeShipBoard() {
         }
     }
     document.getElementById("player").appendChild(table);
-    window.alert("Let's start with placing your Carrier.");
 }
 
 
@@ -119,9 +109,9 @@ function fire() {
         if (hit) {
             shotCounter++;
             if (hitCounter == maxHits) {
-///////////////////////////////////////////////////////////////////////////////////
+
                 gameOver1(shotCounter);
-///////////////////////////////////////////////////////////////////////////////////
+
             }
         } else {
             this.className = "attackDivs miss";
@@ -129,109 +119,64 @@ function fire() {
         }
     }
 
-}/////Ben-My gameOver1() compares values/displays win/lose then resets via writeBase();
+}//Ben-My gameOver1() compares values/displays win/lose then resets via writeBase();
 /////////////////////////////////////////////////////////////////////////////////////////
 //takes in miss amount int
-function gameOver1(missAmt) {
-    window.alert("Congrats, you've sunk all of their ships");
-    //document.getElementById("opponent").removeChild(getElementById("shipboard"));
-    db.collection('Grids').doc('GridStore').update({
-        plr1Scr: missAmt
-    });
-    db.collection('Grids').doc('GridStore').onSnapshot(
-        function (snap) {
-            let player2Score = snap.data().plr2Scr;
-            if (player2Score != 0) {
-                if (missAmt < player2Score) {
-                    window.alert("You Won!!!!!");
-                    //writeBase();
-                } else if (missAmt == player2Score) {
-                    window.alert("Tie!!!");
-                    //writeBase();
-                } else {
-                    window.alert("You Lost!");
-                    //writeBase();
+function gameOver1(missAmt){
+db.collection('Grids').doc('GridStore').onSnapshot(
+function (snap){
+    let ch = snap.data().go;
+    if (ch){
+        db.collection('Grids').doc('GridStore').update({
+            go:false,
+            plr1Scr: missAmt
+        })
+        db.collection('Grids').doc('GridStore').onSnapshot(
+            function (snap){
+                let ch2 = snap.data().go2;
+                while(ch2){
+                    window.alert("Waiting for other player");
                 }
-            } else {
-                window.alert("Waiting for other player");
-            }
-
-        }
-    );
-
-/*
-    db.collection('Grids').doc('GridStore').get().then(
-        (doc) => {
-            if (doc.data().plr2Scr.exists) {
-                let plr2Scr = doc.data().plr2Scr;
-                if (missAmt < plr2Scr) {
-                    window.alert("You Won!!!!!");
-                    writeBase();
-                } else {
-                    window.alert("You Lose!!");
-                    writeBase();
-                }
-            }
-        }
-    );
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
-    db.collection('Grids').doc('GridStore').onSnapshot(
-        function (snap) {
-            let ch = snap.data().go;
-            if (ch) {
-                db.collection('Grids').doc('GridStore').update({
-                    go: false,
-                    plr1Scr: missAmt
-                });
-                db.collection('Grids').doc('GridStore').onSnapshot(
-                    function (snap) {
-                        let ch2 = snap.data().go2;
-                        while (ch2) {
-                            window.alert("Waiting for other player");
-                        }
-                        db.collection('Grids').doc('GridStore').get().then(
-                            (doc) => {
-                                if (doc.exists) {
-                                    let plr2Scr = doc.data().plr2Scr;
-                                    if (missAmt < plr2Scr) {
-                                        window.alert("You Won!!!!!");
-                                        writeBase();
-                                    } else {
-                                        window.alert("You Lose!!");
-                                        writeBase();
-                                    }
-                                }
-                            }
-                        );
-                    }
-                );
-
-            } else {
-                db.collection('Grids').doc('GridStore').update({
-                    go2: false,
-                    plr1Scr: missAmt
-                })
                 db.collection('Grids').doc('GridStore').get().then(
                     (doc) => {
-                        if (doc.exists) {
+                        if(doc.exists){
                             let plr2Scr = doc.data().plr2Scr;
-                            if (missAmt < plr2Scr) {
-                                window.alert("You Win!!!");
+                            if (missAmt<plr2Scr){
+                                window.alert("You Won!!!!!");
                                 writeBase();
-                            } else {
-                                window.alert("You Lose!!!");
+                            } else{
+                                window.alert("You Lose!!");
                                 writeBase();
                             }
                         }
                     }
-                );
-
+                )
             }
-        }
-    );
-*/
+        )
+
+    } else {
+        db.collection('Grids').doc('GridStore').update({
+            go2: false,
+            plr1Scr: missAmt
+        })
+        db.collection('Grids').doc('GridStore').get().then(
+            (doc) => {
+                if(doc.exists){
+                    let plr2Scr = doc.data().plr2Scr;
+                    if (missAmt<plr2Scr){
+                        window.alert("You Win!!!");
+                        writeBase();
+                    } else{
+                        window.alert("You Lose!!!");
+                        writeBase();
+                    }
+                }
+            }
+        )
+
+    }
+}
+)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -522,7 +467,7 @@ function placement() {
         }
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     if (validPlacement) {
         let gridRef = db.collection('Grids').doc('GridStore')
         for (let i = 0; i < shipArray.length; i++) {
@@ -532,69 +477,61 @@ function placement() {
                 ['plyr1.0.' + shipArray[i]] : "true"
             });
         }
-
         validPlacement = false;
 
-        document.getElementById("goButton1").onclick = swapEm1;
-
-           // if (swapEm1()) {//swapEm returns true when check clears
-           //     makeAttackBoard();
-           // }   
         
-    }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-}
-//////////////////////////////////
-///I have this taking in a map
-function swapEm1(boardMap) { ///////goButton1 connects to ready button
-    db.collection('Grids').doc('GridStore').onSnapshot(
-        function (snap) {
-            let check = snap.data().go;
-            if (!check) {
-                let boo = true;
-                db.collection('Grids').doc('GridStore').update({
-                    go: boo
-                })
-                db.collection('Grids').doc('GridStore').onSnapshot(
-                    function (snap) {
-                        let twoCheck = snap.data().go2;
-                        console.log("opponent grid ready?")
-                        if (twoCheck && opponentShips.length == 0) {
-                            console.log("grid ready!");
-                            makeAttackBoard();
-                            //window.alert("Waiting for other player");
-                        } else {
-                            console.log("LOLNOPE");
-                            //return twoCheck;
-                        }
-                    }
-                );
-            } else {
-                console.log("My grid is ready now");
-                //makeAttackBoard();
-                //return true;
-            }
+        if (swapEm1()){//swapEm returns true when check clears
+            makeAttackBoard();
+            
         }
-    );
+    }
+
+}
+//I have this taking in a map
+function swapEm1(boardMap) { //goButton1 connects to ready button
+document.getElementById('goButton1').addEventListener("click", function (e) {
+e.preventDefault();
+db.collection('Grids').doc('GridStore').onSnapshot(
+    function (snap) {
+        let check = snap.data().go;
+        if (!check) {
+            let boo = true;
+            db.collection('Grids').doc('GridStore').update({
+                go: boo
+            })
+            db.collection('Grids').doc('GridStore').onSnapshot(
+                function (snap) {
+                    let twoCheck = snap.data().go2;
+                    while (!twoCheck) {
+                        window.alert("Waiting for other player");
+                    }
+                    return true;
+                }
+            )
+        } else {
+            return true;
+        }
+    }
+)
+
+})
 }
 function writeBase() {
-    let mp = {};
-    for (let i = 1; i <= 10; i++) {
-        for (let j = 1; j <= 10; j++) {
-            mp['' + j + i] = false;
-        }
-    }
-    let arr = [];
-    arr[0] = mp;
-    db.collection('Grids').doc('GridStore').set({
-        go2: false,
-        go: false,
-        plr1Scr: 0,
-        plr2Scr: 0,
-        plyr1: arr,
-        plyr2: arr
+let mp = {};
+for (let i = 1; i <= 10; i++) {
+for (let j = 1; j <= 10; j++) {
+    mp['' + j + i] = false;
+}
+}
+let arr = [];
+arr[0] = mp;
+db.collection('Grids').doc('GridStore').set({
+go2: false,
+go: false,
+plyr1: arr,
+plyr2: arr
 
-    })
+})
 }
 
 

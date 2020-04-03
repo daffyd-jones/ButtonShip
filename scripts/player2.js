@@ -30,10 +30,9 @@ function makeAttackBoard() {
     
     let shipRef = db.collection('Grids').doc('GridStore').get().then(
         function (doc) {
-            //let i = 55;
-            //console.log(doc.data().plyr1);
+            
             let test = doc.data().plyr1;
-            //console.log(typeof(test));
+            
             console.log("db placements: ")
             console.log(test["0"]);
             for (let i = 1; i <= 10; ++i) {
@@ -58,12 +57,8 @@ function makeAttackBoard() {
             td = tr.insertCell(-1);
             let btn = document.createElement('button');
             btn.setAttribute('id', "" + j + i);
-            //btn.innerHTML = btn.id;
+            
             btn.setAttribute('class', "attackDivs unknown");
-            //btn.innerHTML = btn.id;
-            //btn.style.position = "relative"
-            //btn.style.height = "0.8cm";
-            //btn.style.width = "0.8cm";
             setTimeout(function () {
                 btn.onclick = fire;
             }, 10)
@@ -89,10 +84,6 @@ function makeShipBoard() {
             let btn = document.createElement('button');
             btn.setAttribute('id', j + "," + i + "p");
             btn.setAttribute('class', "attackDivs");
-            //btn.innerHTML = btn.id;
-            //btn.style.position = "relative"
-            //btn.style.height = "40px";
-            //btn.style.width = "40px";
             setTimeout(function () {
                 btn.onclick = placement;
             }, 10)
@@ -118,9 +109,7 @@ function fire() {
         if (hit) {
             shotCounter++;
             if (hitCounter == maxHits) {
-///////////////////////////////////////////////////////////////////////////
                 gameOver2(shotCounter);
-/////////////////////////////////////////////////////////////////////
             }
         } else {
             this.className = "attackDivs miss";
@@ -128,11 +117,11 @@ function fire() {
         }
     }
     
-}/////Ben-My gameOver1() compares values/displays win/lose then resets via writeBase();
-///////////////////////////////////////////////////////////////////////////////////////////
+}//Ben-My gameOver1() compares values/displays win/lose then resets via writeBase();
+
 function gameOver2(missAmt) {
     window.alert("Congrats, you've sunk all of their ships");
-    //document.getElementById("opponent").removeChild(getElementById("shipboard"));
+    
     db.collection('Grids').doc('GridStore').update({
         plr2Scr: missAmt
     })
@@ -142,13 +131,10 @@ function gameOver2(missAmt) {
             if (player1Score != 0) {
                 if (missAmt < player1Score) {
                     window.alert("You Won!!!!!");
-                    //writeBase();
                 } else if (missAmt == player1Score) {
                     window.alert("Tie!!!");
-                    //writeBase();
                 } else {
                     window.alert("You Lost!");
-                    //writeBase();
                 }
             } else {
                 window.alert("Waiting for other player");
@@ -157,66 +143,8 @@ function gameOver2(missAmt) {
         }
        
     );
-///////////////////////////////////////////////////////////////////////////////////////////
-/*
-    db.collection('Grids').doc('GridStore').onSnapshot(
-        function (snap) {
-            let ch = snap.data().go;
-            if (ch) {
-                db.collection('Grids').doc('GridStore').update({
-                    go: false,
-                    plr2Scr: missAmt
-                })
-                db.collection('Grids').doc('GridStore').onSnapshot(
-                    function (snap) {
-                        let ch2 = snap.data().go2;
-                        while (ch2) {
-                            window.alert("Waiting for other player.")
-                        }
-                        db.collection('Grids').doc('GridStore').get().then(
-                            (doc) => {
-                                if (doc.exists) {
-                                    let plr1Scr = doc.data().plr1Scr;
-                                    if (missAmt < plr1Scr) {
-                                        window.alert("You Win");
-                                        writeBase();
-                                    } else {
-                                        window.alert("you Lose");
-                                        writeBase();
-                                    }
-                                }
-                            }
-                        )
-                    }
-                )
-
-            } else {
-                db.collection('Grids').doc('GridStore').update({
-                    go2: false,
-                    plr2Scr: missAmt
-                })
-                db.collection('Grids').doc('GridStore').get().then(
-                    (doc) => {
-                        if (doc.exists) {
-                            let plr1Scr = doc.data().plr1Scr;
-                            if (missAmt < plr1Scr) {
-                                window.alert("You Win!!!");
-                                writeBase();
-                            } else {
-                                window.alert("you Lose!!!")
-                                writeBase();
-                            }
-                        }
-                    }
-                )
-
-            }
-        }
-    )
-*/
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 //ships can overlap currently, as well as share end points
 function placement() {
 
@@ -503,7 +431,7 @@ function placement() {
             }
         }
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+
     if (validPlacement) {
         let gridRef = db.collection('Grids').doc('GridStore')
         for (let i = 0; i < shipArray.length; i++) {
@@ -518,9 +446,9 @@ function placement() {
         document.getElementById("goButton2").onclick = swapEm2;
         
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
-//board map takes in map/////goButton2 connects to ready btn
+//board map takes in map//goButton2 connects to ready btn
 function swapEm2(boardMap) {
     db.collection('Grids').doc('GridStore').onSnapshot(
         function (snap) {
@@ -537,17 +465,15 @@ function swapEm2(boardMap) {
                         if (twoCheck && opponentShips.length == 0) {
                             console.log("grid ready!");
                             makeAttackBoard();
-                            //window.alert("Waiting for other player");
                         } else {
                             console.log("LOLNOPE");
-                            //return twoCheck;
+                        
                         }
                     }
                 );
             } else {
                 console.log("My grid is ready now");
-                //makeAttackBoard();
-                //return true;
+                
             }
         }
     );
