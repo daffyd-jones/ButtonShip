@@ -22,7 +22,6 @@ let y2 = 0;
 
 let shipArray = [];
 let opponentShips = [];
-let db;
 let shotCounter = 0;
 let hitCounter = 0;
 
