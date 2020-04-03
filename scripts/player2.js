@@ -497,15 +497,15 @@ document.getElementById('goButton2').addEventListener("click", function (e) {
 e.preventDefault();
 db.collection('Grids').doc('GridStore').onSnapshot(
     function (snap) {
-        let check = snap.data().go;
+        let check = snap.data().go2;
         if (!check) {
             let boo = true;
-            bd.collection('Grids').doc('GridStore').update({
-                go: boo
+            db.collection('Grids').doc('GridStore').update({
+                go2: boo
             })
             db.collection('Grids').doc('GridStore').onSnapshot(
                 function (snap) {
-                    let twoCheck = snap.data().go2;
+                    let twoCheck = snap.data().go;
                     while (!twoCheck) {
                         window.alert("Waiting for other player");
                     }
