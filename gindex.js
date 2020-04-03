@@ -373,7 +373,7 @@ placeGrids(p1Grid);
 
 
 //////////////////////////////////
-let otherBoard;
+let otherBoard1;
 
 function swapEm1() {
     document.getElementById('goButton1').addEventListener("click", function (e) {
@@ -401,7 +401,7 @@ function swapEm1() {
                             db.collection('Grids').doc('GridStore').get().then(
                                 (doc) => {
                                     if (doc.exists) {
-                                        otherBoard = doc.data().plyr2;
+                                        otherBoard1 = doc.data().plyr2;
                                     } else {
                                         console.log("no doc");
                                     }
@@ -410,14 +410,14 @@ function swapEm1() {
                         }
                     )
                 } else {
-                    document.getElementById('textField').innerHTML = "";
                     db.collection('Grids').doc('GridStore').update({
+                        go2: true,
                         plyr1: boardMap
                     })
                     db.collection('Grids').doc('GridStore').get().then(
                         (doc) => {
                             if (doc.exists) {
-                                otherBoard = doc.data().plyr2;
+                                otherBoard1 = doc.data().plyr2;
                             } else {
                                 console.log("no doc");
                             }
@@ -428,6 +428,177 @@ function swapEm1() {
         )
 
     })
+}
+let otherBoard2;
+function swapEm2() {
+    document.getElementById('goButton2').addEventListener("click", function (e) {
+        e.preventDefault();
+        //need to put a get by id here, not sure what ians set up looks like yet.
+
+        db.collection('Grids').doc('GridStore').onSnapshot(
+            function (snap) {
+                let check = snap.data().go;
+                if (!check) {
+                    let boo = true;
+                    bd.collection('Grids').doc('GridStore').update({
+                        go: boo
+                    })
+                    db.collection('Grids').doc('GridStore').onSnapshot(
+                        function (snap) {
+                            let twoCheck = snap.data().go2;
+                            while (!twoCheck) {
+                                document.getElementById('waitingText').innerHTML = "Waiting for other player";
+                            }
+                            document.getElementById('waitingText').innerHTML = "";
+                            db.collection('Grids').doc('GridStore').update({
+                                plyr2: boardMap
+                            })
+                            db.collection('Grids').doc('GridStore').get().then(
+                                (doc) => {
+                                    if (doc.exists) {
+                                        otherBoard2 = doc.data().plyr1;
+                                    } else {
+                                        console.log("no doc");
+                                    }
+                                }
+                            )
+                        }
+                    )
+                } else {
+                    db.collection('Grids').doc('GridStore').update({
+                        go2:true,
+                        plyr2: boardMap
+                    })
+                    db.collection('Grids').doc('GridStore').get().then(
+                        (doc) => {
+                            if (doc.exists) {
+                                otherBoard2 = doc.data().plyr1;
+                            } else {
+                                console.log("no doc");
+                            }
+                        }
+                    )
+                }
+            }
+        )
+
+    })
+}
+
+
+function gameOver1(missAmt){
+    db.collection('Grids').doc('GridStore').onSnapshot(
+        function (snap){
+            let ch = snap.data().go;
+            if (ch){
+                db.collection('Grids').doc('GridStore').update({
+                    go:false,
+                    plr1Scr: missAmt
+                })
+                db.collection('Grids').doc('GridStore').onSnapshot(
+                    function (snap){
+                        let ch2 = snap.data().go2;
+                        while(ch2){
+                            document.getElementById('waitingText').innerHTML = "waiting for other player";
+                        }
+                        document.getElementById('waitingText').innerHTML = "";
+                        db.collection('Grids').doc('GridStore').get().then(
+                            (doc) => {
+                                if(doc.exists){
+                                    let plr2Scr = doc.data().plr2Scr;
+                                    if (missAmt<plr2Scr){
+                                        document.getElementById('waitingText').innerHTML = "You won!!";
+                                        writeBase();
+                                    } else{
+                                        document.getElementById('waitingText').innerHTML = "you lose!!";
+                                        writeBase();
+                                    }
+                                }
+                            }
+                        )
+                    }
+                )
+
+            } else {
+                db.collection('Grids').doc('GridStore').update({
+                    go2: false,
+                    plr1Scr: missAmt
+                })
+                db.collection('Grids').doc('GridStore').get().then(
+                    (doc) => {
+                        if(doc.exists){
+                            let plr2Scr = doc.data().plr2Scr;
+                            if (missAmt<plr2Scr){
+                                document.getElementById('waitingText').innerHTML = "you win!!";
+                                writeBase();
+                            } else{
+                                document.getElementById('waitingText').innerHTML = "you lose!!";
+                                writeBase();
+                            }
+                        }
+                    }
+                )
+
+            }
+        }
+    )
+}
+function gameOver2(missAmt){
+    db.collection('Grids').doc('GridStore').onSnapshot(
+        function (snap){
+            let ch = snap.data().go;
+            if (ch){
+                db.collection('Grids').doc('GridStore').update({
+                    go:false,
+                    plr2Scr: missAmt
+                })
+                db.collection('Grids').doc('GridStore').onSnapshot(
+                    function (snap){
+                        let ch2 = snap.data().go2;
+                        while(ch2){
+                            document.getElementById('waitingText').innerHTML = "waiting for other player";
+                        }
+                        document.getElementById('waitingText').innerHTML = "";
+                        db.collection('Grids').doc('GridStore').get().then(
+                            (doc) => {
+                                if(doc.exists){
+                                    let plr1Scr = doc.data().plr1Scr;
+                                    if (missAmt<plr1Scr){
+                                        document.getElementById('waitingText').innerHTML = "You won!!";
+                                        writeBase();
+                                    } else{
+                                        document.getElementById('waitingText').innerHTML = "you lose!!";
+                                        writeBase();
+                                    }
+                                }
+                            }
+                        )
+                    }
+                )
+
+            } else {
+                db.collection('Grids').doc('GridStore').update({
+                    go2: false,
+                    plr2Scr: missAmt
+                })
+                db.collection('Grids').doc('GridStore').get().then(
+                    (doc) => {
+                        if(doc.exists){
+                            let plr1Scr = doc.data().plr1Scr;
+                            if (missAmt<plr1Scr){
+                                document.getElementById('waitingText').innerHTML = "you win!!";
+                                writeBase();
+                            } else{
+                                document.getElementById('waitingText').innerHTML = "you lose!!";
+                                writeBase();
+                            }
+                        }
+                    }
+                )
+
+            }
+        }
+    )
 }
 
 function writeBase() {
