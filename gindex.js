@@ -373,13 +373,10 @@ placeGrids(p1Grid);
 
 
 //////////////////////////////////
-let otherBoard1;
-
-function swapEm1() {
+///I have this taking in a map
+function swapEm1(boardMap) { ///////goButton1 connects to ready button
     document.getElementById('goButton1').addEventListener("click", function (e) {
         e.preventDefault();
-        //need to put a get by id here, not sure what ians set up looks like yet.
-
         db.collection('Grids').doc('GridStore').onSnapshot(
             function (snap) {
                 let check = snap.data().go;
@@ -392,9 +389,8 @@ function swapEm1() {
                         function (snap) {
                             let twoCheck = snap.data().go2;
                             while (!twoCheck) {
-                                document.getElementById('waiting').innerHTML = "Waiting for other player";
+                                alert("Waiting for other player");
                             }
-                            document.getElementById('textField').innerHTML = "";
                             db.collection('Grids').doc('GridStore').update({
                                 plyr1: boardMap
                             })
@@ -402,7 +398,9 @@ function swapEm1() {
                                 (doc) => {
                                     if (doc.exists) {
                                         otherBoard1 = doc.data().plyr2;
-                                    } else {
+                                        return otherBoard1 ///////////////returns other players map if first go was false.
+                                    } else {//////////////////////////////---waits for go2 to be true before pulling "otherBoard1"
+                                    //////////////////////////////////////returns otherBoard1
                                         console.log("no doc");
                                     }
                                 }
@@ -418,8 +416,9 @@ function swapEm1() {
                         (doc) => {
                             if (doc.exists) {
                                 otherBoard1 = doc.data().plyr2;
-                            } else {
-                                console.log("no doc");
+                                return otherBoard1; ///////returns other players map if first go was true.
+                            } else {///////////////////////---sets go2 to true allowing other player to pull
+                                console.log("no doc");/////and pulls then returns otherBoard1
                             }
                         }
                     )
@@ -429,12 +428,10 @@ function swapEm1() {
 
     })
 }
-let otherBoard2;
-function swapEm2() {
+//board map takes in map/////goButton2 connects to ready btn
+function swapEm2(boardMap) {
     document.getElementById('goButton2').addEventListener("click", function (e) {
         e.preventDefault();
-        //need to put a get by id here, not sure what ians set up looks like yet.
-
         db.collection('Grids').doc('GridStore').onSnapshot(
             function (snap) {
                 let check = snap.data().go;
@@ -447,9 +444,8 @@ function swapEm2() {
                         function (snap) {
                             let twoCheck = snap.data().go2;
                             while (!twoCheck) {
-                                document.getElementById('waitingText').innerHTML = "Waiting for other player";
+                                alert("Waiting for other player");
                             }
-                            document.getElementById('waitingText').innerHTML = "";
                             db.collection('Grids').doc('GridStore').update({
                                 plyr2: boardMap
                             })
@@ -457,8 +453,9 @@ function swapEm2() {
                                 (doc) => {
                                     if (doc.exists) {
                                         otherBoard2 = doc.data().plyr1;
-                                    } else {
-                                        console.log("no doc");
+                                        return otherBoard2;///////////////returns other players map if first go was false.
+                                    } else {//////////////////////////////---waits for go2 to be true before pulling "otherBoard1"
+                                        console.log("no doc");//////////////////////////////////////returns otherBoard1
                                     }
                                 }
                             )
@@ -473,8 +470,9 @@ function swapEm2() {
                         (doc) => {
                             if (doc.exists) {
                                 otherBoard2 = doc.data().plyr1;
-                            } else {
-                                console.log("no doc");
+                                return otherBoard2;///////returns other players map if first go was true.
+                            } else {///////////////////////---sets go2 to true allowing other player to pull
+                                console.log("no doc");/////and pulls then returns otherBoard1
                             }
                         }
                     )
@@ -485,7 +483,7 @@ function swapEm2() {
     })
 }
 
-
+//takes in miss amount int
 function gameOver1(missAmt){
     db.collection('Grids').doc('GridStore').onSnapshot(
         function (snap){
@@ -499,18 +497,17 @@ function gameOver1(missAmt){
                     function (snap){
                         let ch2 = snap.data().go2;
                         while(ch2){
-                            document.getElementById('waitingText').innerHTML = "waiting for other player";
+                            alert("Waiting for other player");
                         }
-                        document.getElementById('waitingText').innerHTML = "";
                         db.collection('Grids').doc('GridStore').get().then(
                             (doc) => {
                                 if(doc.exists){
                                     let plr2Scr = doc.data().plr2Scr;
                                     if (missAmt<plr2Scr){
-                                        document.getElementById('waitingText').innerHTML = "You won!!";
+                                        alert("You Won!!!!!");
                                         writeBase();
                                     } else{
-                                        document.getElementById('waitingText').innerHTML = "you lose!!";
+                                        alert("You Lose!!");
                                         writeBase();
                                     }
                                 }
@@ -529,10 +526,10 @@ function gameOver1(missAmt){
                         if(doc.exists){
                             let plr2Scr = doc.data().plr2Scr;
                             if (missAmt<plr2Scr){
-                                document.getElementById('waitingText').innerHTML = "you win!!";
+                                alert("You Win!!!");
                                 writeBase();
                             } else{
-                                document.getElementById('waitingText').innerHTML = "you lose!!";
+                                alert("You Lose!!!");
                                 writeBase();
                             }
                         }
@@ -556,18 +553,17 @@ function gameOver2(missAmt){
                     function (snap){
                         let ch2 = snap.data().go2;
                         while(ch2){
-                            document.getElementById('waitingText').innerHTML = "waiting for other player";
+                            alert("Waiting for other player.")
                         }
-                        document.getElementById('waitingText').innerHTML = "";
                         db.collection('Grids').doc('GridStore').get().then(
                             (doc) => {
                                 if(doc.exists){
                                     let plr1Scr = doc.data().plr1Scr;
                                     if (missAmt<plr1Scr){
-                                        document.getElementById('waitingText').innerHTML = "You won!!";
+                                        alert("You Win");
                                         writeBase();
                                     } else{
-                                        document.getElementById('waitingText').innerHTML = "you lose!!";
+                                        alert("you Lose");
                                         writeBase();
                                     }
                                 }
@@ -586,10 +582,10 @@ function gameOver2(missAmt){
                         if(doc.exists){
                             let plr1Scr = doc.data().plr1Scr;
                             if (missAmt<plr1Scr){
-                                document.getElementById('waitingText').innerHTML = "you win!!";
+                                alert("You Win!!!");
                                 writeBase();
                             } else{
-                                document.getElementById('waitingText').innerHTML = "you lose!!";
+                                alert("you Lose!!!")
                                 writeBase();
                             }
                         }
@@ -600,6 +596,7 @@ function gameOver2(missAmt){
         }
     )
 }
+
 
 function writeBase() {
     let mp = {};
@@ -618,4 +615,11 @@ function writeBase() {
 
     })
 }
-//writeBase();
+
+
+
+
+
+
+
+
