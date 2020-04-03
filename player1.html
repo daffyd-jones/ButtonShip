@@ -212,7 +212,7 @@
                     shotCounter++;
                     if (hitCounter == maxHits) {
 ///////////////////////////////////////////////////////////////////////////////////
-                        gameOver1();
+                        gameOver1(shotCounter);
 ///////////////////////////////////////////////////////////////////////////////////
                     }
                 } else {
@@ -221,7 +221,7 @@
                 }
             }
 
-        }
+        }/////Ben-My gameOver1() compares values/displays win/lose then resets via writeBase();
 /////////////////////////////////////////////////////////////////////////////////////////
         function gameOver1() {
             winCheck();
@@ -527,8 +527,11 @@
                 }
                 validPlacement = false;
 
-                //Make this happen once opponent is ready
-                makeAttackBoard();
+                
+                if (swapEm1()){//swapEm returns true when check clears
+                    makeAttackBoard();
+                    
+                }
             }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }

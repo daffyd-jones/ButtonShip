@@ -391,37 +391,11 @@ function swapEm1(boardMap) { ///////goButton1 connects to ready button
                             while (!twoCheck) {
                                 window.alert("Waiting for other player");
                             }
-                            db.collection('Grids').doc('GridStore').update({
-                                plyr1: boardMap
-                            })
-                            db.collection('Grids').doc('GridStore').get().then(
-                                (doc) => {
-                                    if (doc.exists) {
-                                        otherBoard1 = doc.data().plyr2;
-                                        return otherBoard1 ///////////////returns other players map if first go was false.
-                                    } else {//////////////////////////////---waits for go2 to be true before pulling "otherBoard1"
-                                    //////////////////////////////////////returns otherBoard1
-                                        console.log("no doc");
-                                    }
-                                }
-                            )
+                            return true;
                         }
                     )
                 } else {
-                    db.collection('Grids').doc('GridStore').update({
-                        go2: true,
-                        plyr1: boardMap
-                    })
-                    db.collection('Grids').doc('GridStore').get().then(
-                        (doc) => {
-                            if (doc.exists) {
-                                otherBoard1 = doc.data().plyr2;
-                                return otherBoard1; ///////returns other players map if first go was true.
-                            } else {///////////////////////---sets go2 to true allowing other player to pull
-                                console.log("no doc");/////and pulls then returns otherBoard1
-                            }
-                        }
-                    )
+                    return true;
                 }
             }
         )
@@ -446,36 +420,11 @@ function swapEm2(boardMap) {
                             while (!twoCheck) {
                                 window.alert("Waiting for other player");
                             }
-                            db.collection('Grids').doc('GridStore').update({
-                                plyr2: boardMap
-                            })
-                            db.collection('Grids').doc('GridStore').get().then(
-                                (doc) => {
-                                    if (doc.exists) {
-                                        otherBoard2 = doc.data().plyr1;
-                                        return otherBoard2;///////////////returns other players map if first go was false.
-                                    } else {//////////////////////////////---waits for go2 to be true before pulling "otherBoard1"
-                                        console.log("no doc");//////////////////////////////////////returns otherBoard1
-                                    }
-                                }
-                            )
+                            return true;
                         }
                     )
                 } else {
-                    db.collection('Grids').doc('GridStore').update({
-                        go2:true,
-                        plyr2: boardMap
-                    })
-                    db.collection('Grids').doc('GridStore').get().then(
-                        (doc) => {
-                            if (doc.exists) {
-                                otherBoard2 = doc.data().plyr1;
-                                return otherBoard2;///////returns other players map if first go was true.
-                            } else {///////////////////////---sets go2 to true allowing other player to pull
-                                console.log("no doc");/////and pulls then returns otherBoard1
-                            }
-                        }
-                    )
+                    return true;
                 }
             }
         )
