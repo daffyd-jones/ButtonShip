@@ -15,18 +15,24 @@ buttDiv.setAttribute('id', "enterDiv");
                         let check = snap.data().isp1waiting;
                         
                         if (check) {
-                            document.getElementById('enterA').href = "player2.html";
+                            
                             db.collection('PlayerCount').doc('PlyrCnt').update({
                                 isp1waiting: false
                                 
                             })
                             console.log(check);
+                            setTimeout(function() {
+                                window.location.href = "player2.html";
+                            }, 500);
                         } else {
-                            document.getElementById('enterA').href = "player1.html";
+                            
                             db.collection('PlayerCount').doc('PlyrCnt').update({
                                 isp1waiting: true
                             })
                             console.log(check);
+                            setTimeout(function() {
+                                window.location.href = "player1.html";
+                            }, 500);
                         }
                     }
                 )
