@@ -506,7 +506,7 @@ db.collection('Grids').doc('GridStore').onSnapshot(
         let check = snap.data().go;
         if (!check) {
             let boo = true;
-            bd.collection('Grids').doc('GridStore').update({
+            db.collection('Grids').doc('GridStore').update({
                 go: boo
             })
             db.collection('Grids').doc('GridStore').onSnapshot(
