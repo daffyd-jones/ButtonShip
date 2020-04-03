@@ -67,12 +67,14 @@
                         
                         if (check) {
                             document.getElementById('enterA').href = "player2.html";
-                            db.collection('PlayerCount').doc('PlyrCnt').set({
+                            db.collection('PlayerCount').doc('PlyrCnt').update({
                                 isp1waiting: false
+                                
                             })
+                            break;
                         } else {
                             document.getElementById('enterA').href = "player1.html";
-                            db.collection('PlayerCount').doc('PlyrCnt').set({
+                            db.collection('PlayerCount').doc('PlyrCnt').update({
                                 isp1waiting: true
                             })
                         }
