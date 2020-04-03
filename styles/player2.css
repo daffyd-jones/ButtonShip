@@ -1,7 +1,12 @@
+body {
+    background-color: lightslategray;
+}
+
 button {
     border: 2px black;
     text-decoration: none;
     cursor: pointer;
+    background-color: antiquewhite
 }
 .cent {
     margin: auto;
