@@ -22,9 +22,32 @@
     <div id="container"></div>
 
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-analytics.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
 
     <script>
-        let plyrCnt = 0;
+        // Your web app's Firebase configuration
+        let firebaseConfig = {
+            apiKey: "AIzaSyBEOqIB8IiEGwVXA5zTpZqzCEUBmfg6k_0",
+            authDomain: "battleship-74489.firebaseapp.com",
+            databaseURL: "https://battleship-74489.firebaseio.com/",
+            projectId: "battleship-74489",
+            storageBucket: "battleship-74489.appspot.com",
+            messagingSenderId: "594313197295",
+            appId: "1:594313197295:web:e783e7bb79dc661cb18d1a",
+            measurementId: "G-28BM8ZQ4FY"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        // Initialize Database
+        var db = firebase.firestore();
         
         document.body.onload = function(){
             let buttDiv = document.createElement('div');
@@ -38,13 +61,23 @@
             buttDiv.style.alignContent = "auto";
             buttDiv.innerHTML = "Enter The Game!";
             buttDiv.onclick = function (){
-                if (plyrCnt == 0){
-                    document.getElementById('enterA').href = "player1.html";
-                    plyrCnt += 1;
-                } else if(plyrCnt == 1){
-                    document.getElementById('enterA').href = "player2.html";
-                    plyrCnt = 0;
-                }
+                db.collection('PlayerCount').doc('PlyrCnt').onSnapshot (
+                    function (snap) {
+                        let check = snap.data().isp1waiting;
+                        
+                        if (check) {
+                            document.getElementById('enterA').href = "player2.html";
+                            db.collection('PlayerCount').doc('PlyrCnt').set({
+                                isp1waiting: false
+                            })
+                        } else {
+                            document.getElementById('enterA').href = "player1.html";
+                            db.collection('PlayerCount').doc('PlyrCnt').set({
+                                isp1waiting: true
+                            })
+                        }
+                    }
+                )
             };
             buttA.appendChild(buttDiv);
             document.getElementById('container').appendChild(buttA);
