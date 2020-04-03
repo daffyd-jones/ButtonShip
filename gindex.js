@@ -69,8 +69,8 @@ function getCoords(typeofship, sizeofship) {
         cy1 = parseInt(coords[2]);
         cy2 = parseInt(coords[0]);
     }
-    let xsizecheck = (cx2 - cx1+1 == sizeofship && cy2 == cy1);
-    let ysizecheck = (cy2 - cy1+1 == sizeofship && cx2 == cx1);
+    let xsizecheck = (cx2 - cx1 + 1 == sizeofship && cy2 == cy1);
+    let ysizecheck = (cy2 - cy1 + 1 == sizeofship && cx2 == cx1);
     if (xsizecheck | ysizecheck) {
     } else {
         getCoords(recall1, recall2)
@@ -85,33 +85,33 @@ function placeCarrier(x1, y1, x2, y2) {
     }
 }
 //Places the battleship.
-function placeBattleship(x1,y1,x2,y2){
-    for(var f = x1; f <= x2; f++){
-        for(var g = y1; g <= y2; g++){
+function placeBattleship(x1, y1, x2, y2) {
+    for (var f = x1; f <= x2; f++) {
+        for (var g = y1; g <= y2; g++) {
             p1Grid[f][g] = shipspace;
         }
     }
 }
 //Places the destroyer class ship.
-function placeDestroyer(x1,y1,x2,y2){
-    for(var f = x1; f <= x2; f++){
-        for(var g = y1; g <= y2; g++){
+function placeDestroyer(x1, y1, x2, y2) {
+    for (var f = x1; f <= x2; f++) {
+        for (var g = y1; g <= y2; g++) {
             p1Grid[f][g] = shipspace;
         }
     }
 }
 //Places the submarine.
-function placeSubmarine(x1,y1,x2,y2){
-    for(var f = x1; f <= x2; f++){
-        for(var g = y1; g <= y2; g++){
+function placeSubmarine(x1, y1, x2, y2) {
+    for (var f = x1; f <= x2; f++) {
+        for (var g = y1; g <= y2; g++) {
             p1Grid[f][g] = shipspace;
         }
     }
 }
 //Places the patrol boat.
-function placePatrolBoat(x1,y1,x2,y2){
-    for(var f = x1; f <= x2; f++){
-        for(var g = y1; g <= y2; g++){
+function placePatrolBoat(x1, y1, x2, y2) {
+    for (var f = x1; f <= x2; f++) {
+        for (var g = y1; g <= y2; g++) {
             p1Grid[f][g] = shipspace;
         }
     }
@@ -378,29 +378,52 @@ let otherBoard;
 function swapEm1() {
     document.getElementById('goButton1').addEventListener("click", function (e) {
         e.preventDefault();
-//need to put a get by id here, not sure what ians set up looks like yet.
+        //need to put a get by id here, not sure what ians set up looks like yet.
 
         db.collection('Grids').doc('GridStore').onSnapshot(
             function (snap) {
                 let check = snap.data().go;
-                while (!check) {
-                    document.getElementById('textField').innerHTML = "Waiting for other player.";
-                }
-                document.getElementById('textField').innerHTML = "";
-                db.collection('Grids').doc('GridStore').update({
-                    plyr1: boardMap
-                })
-                db.collection('Grids').doc('GridStore').get().then(
-                    (doc) => {
-                        if (doc.exists) {
-                            otherBoard = doc.data().plyr2;
-                        } else {
-                            console.log("no doc");
+                if (!check) {
+                    let boo = true;
+                    bd.collection('Grids').doc('GridStore').update({
+                        go: boo
+                    })
+                    db.collection('Grids').doc('GridStore').onSnapshot(
+                        function (snap) {
+                            let twoCheck = snap.data().go2;
+                            while (!twoCheck) {
+                                document.getElementById('waiting').innerHTML = "Waiting for other player";
+                            }
+                            document.getElementById('textField').innerHTML = "";
+                            db.collection('Grids').doc('GridStore').update({
+                                plyr1: boardMap
+                            })
+                            db.collection('Grids').doc('GridStore').get().then(
+                                (doc) => {
+                                    if (doc.exists) {
+                                        otherBoard = doc.data().plyr2;
+                                    } else {
+                                        console.log("no doc");
+                                    }
+                                }
+                            )
                         }
-                    }
-                )
-
-
+                    )
+                } else {
+                    document.getElementById('textField').innerHTML = "";
+                    db.collection('Grids').doc('GridStore').update({
+                        plyr1: boardMap
+                    })
+                    db.collection('Grids').doc('GridStore').get().then(
+                        (doc) => {
+                            if (doc.exists) {
+                                otherBoard = doc.data().plyr2;
+                            } else {
+                                console.log("no doc");
+                            }
+                        }
+                    )
+                }
             }
         )
 
@@ -420,7 +443,7 @@ function writeBase() {
         go: false,
         plyr1: arr,
         plyr2: arr
-        
+
     })
 }
 //writeBase();
