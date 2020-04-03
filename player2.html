@@ -77,7 +77,7 @@
         const destroyerSize = 3;
         const submarineSize = 3;
         const patrolboatSize = 2;
-
+        const maxHits = 17;
         let placingCarrier = true;
         let placingBattleship = false;
         let placingDestroyer = false;
@@ -95,7 +95,11 @@
         let y2 = 0;
 
         let shipArray = [];
+        let opponentShips = [];
         let db;
+        let shotCounter = 0;
+        let hitCounter = 0;
+        
 
         // Your web app's Firebase configuration
         let firebaseConfig = {
@@ -117,11 +121,11 @@
         
         function makeAttackBoard() {
             let playArea = [];
-            let opponentShips = [];
+            
             let shipRef = db.collection('Grids').doc('GridStore').get().then(
                 function (doc) {
                     //let i = 55;
-                    //console.log(doc.data().plyr2);
+                    //console.log(doc.data().plyr1);
                     let test = doc.data().plyr1;
                     //console.log(typeof(test));
                     console.log("db placements: ")
@@ -154,25 +158,8 @@
                     //btn.style.position = "relative"
                     //btn.style.height = "0.8cm";
                     //btn.style.width = "0.8cm";
-                    let timOut = setTimeout(function () {
-                        btn.onclick = function fire(e) {
-                            e.preventDefault();
-                            let array;
-                            db.collection("grids").doc('GridStore').get(
-                                function (snap) {
-                                    array = snap.data().array;
-                                    console.log(array);
-                                }
-                            )
-                            if (array[j][i]) {
-                                array[j].splice(i, 1, "hit");
-
-                            } else {
-                                document.getElementById('nopeMessage').style.display = "block";
-
-                            }
-                            bd.collection("rooms").doc("id").update(array);
-                        }
+                    setTimeout(function () {
+                        btn.onclick = fire();
                     }, 10)
                     td.appendChild(btn);
                 }
@@ -208,6 +195,30 @@
             document.getElementById("player").appendChild(table);
         }
 
+        function fire() {
+            let hit = false;
+            if (this.className.includes("hit") || this.className.includes("miss")) {
+                break;
+            } else {
+                for (let i = 0; i < opponentShips.length; i++) {
+                    if (this.id == opponentShips[i]) {
+                        this.className = "attackDivs hit"
+                        hitCounter++;
+                        hit = true;
+                    }
+                }
+                if (hit) {
+                    shotCounter++;
+                    if (hitCounter == maxHits) {
+                        gameOver2();
+                    }
+                } else {
+                    this.className = "attackDivs miss";
+                    shotCounter++;
+                }
+            }
+            
+        }
         //ships can overlap currently, as well as share end points
         function placement() {
 

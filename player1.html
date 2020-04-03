@@ -154,25 +154,8 @@
                     //btn.style.position = "relative"
                     //btn.style.height = "0.8cm";
                     //btn.style.width = "0.8cm";
-                    let timOut = setTimeout(function () {
-                        btn.onclick = function fire(e) {
-                            e.preventDefault();
-                            let array;
-                            db.collection("grids").doc('GridStore').get(
-                                function (snap) {
-                                    array = snap.data().array;
-                                    console.log(array);
-                                }
-                            )
-                            if (array[j][i]) {
-                                array[j].splice(i, 1, "hit");
-
-                            } else {
-                                document.getElementById('nopeMessage').style.display = "block";
-
-                            }
-                            bd.collection("rooms").doc("id").update(array);
-                        }
+                    setTimeout(function () {
+                        btn.onclick = fire();
                     }, 10)
                     td.appendChild(btn);
                 }
@@ -208,6 +191,31 @@
             document.getElementById("player").appendChild(table);
         }
 
+
+        function fire() {
+            let hit = false;
+            if (this.className.includes("hit") || this.className.includes("miss")) {
+                break;
+            } else {
+                for (let i = 0; i < opponentShips.length; i++) {
+                    if (this.id == opponentShips[i]) {
+                        this.className = "attackDivs hit"
+                        hitCounter++;
+                        hit = true;
+                    }
+                }
+                if (hit) {
+                    shotCounter++;
+                    if (hitCounter == maxHits) {
+                        gameOver1();
+                    }
+                } else {
+                    this.className = "attackDivs miss";
+                    shotCounter++;
+                }
+            }
+
+        }
         //ships can overlap currently, as well as share end points
         function placement() {
 
