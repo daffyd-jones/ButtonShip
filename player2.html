@@ -159,7 +159,7 @@
                     //btn.style.height = "0.8cm";
                     //btn.style.width = "0.8cm";
                     setTimeout(function () {
-                        btn.onclick = fire();
+                        btn.onclick = fire;
                     }, 10)
                     td.appendChild(btn);
                 }
@@ -198,7 +198,7 @@
         function fire() {
             let hit = false;
             if (this.className.includes("hit") || this.className.includes("miss")) {
-                break;
+
             } else {
                 for (let i = 0; i < opponentShips.length; i++) {
                     if (this.id == opponentShips[i]) {
