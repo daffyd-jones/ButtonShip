@@ -57,7 +57,6 @@ function makeAttackBoard() {
             td = tr.insertCell(-1);
             let btn = document.createElement('button');
             btn.setAttribute('id', "" + j + i);
-            
             btn.setAttribute('class', "attackDivs unknown");
             setTimeout(function () {
                 btn.onclick = fire;
@@ -141,9 +140,7 @@ function gameOver2(missAmt) {
             } else {
                 window.alert("Waiting for other player");
             }
-
-        }
-       
+        }     
     );
 }
 
@@ -445,12 +442,9 @@ function placement() {
         }
         validPlacement = false;
 
-        document.getElementById("goButton2").onclick = swapEm2;
-        
+        document.getElementById("goButton2").onclick = swapEm2;        
     }
-
 }
-//board map takes in map//goButton2 connects to ready btn
 function swapEm2(boardMap) {
     db.collection('Grids').doc('GridStore').onSnapshot(
         function (snap) {
@@ -469,18 +463,14 @@ function swapEm2(boardMap) {
                             makeAttackBoard();
                         } else {
                             console.log("LOLNOPE");
-                        
                         }
                     }
                 );
             } else {
                 console.log("My grid is ready now");
-                
             }
         }
     );
-
-
 }
 function writeBase() {
     let mp = {};
@@ -502,9 +492,4 @@ function writeBase() {
     })
 }
 
-
-//makeAttackBoard();
 makeShipBoard();
-
-
-

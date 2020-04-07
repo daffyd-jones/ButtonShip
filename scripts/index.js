@@ -3,13 +3,13 @@ document.body.onload = function () {
     let buttA = document.createElement('a');
     buttA.setAttribute('id', "enterA");
     buttDiv.setAttribute('id', "enterDiv");
-    buttDiv.style.backgroundColor = "lightslategray";
+    buttDiv.style.backgroundColor = "antiquewhite";
     buttDiv.style.height = "1.5cm";
     buttDiv.style.width = "2.5cm";
     buttDiv.style.position = "relative";
     buttDiv.style.alignContent = "auto";
     buttDiv.style.fontWeight = "600";
-    buttDiv.innerHTML = "Enter The Game!";
+    buttDiv.innerHTML = "Start!";
     buttDiv.onclick = function () {
         db.collection('PlayerCount').doc('PlyrCnt').get().then(
             function (snap) {
